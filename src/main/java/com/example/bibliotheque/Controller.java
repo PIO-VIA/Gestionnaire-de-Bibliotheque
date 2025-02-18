@@ -12,6 +12,7 @@ public class Controller  extends BorderPane {
 
 
     public Controller(){
+        //---Dashboard
         VBox Dashboard =new VBox(10);
         Button accueil =new Button("Accueil");
         Button utilisateur =new Button("Utilisateur");
@@ -37,15 +38,34 @@ public class Controller  extends BorderPane {
         TableView tableau= new TableView<>(items);
         tableau.getColumns().addAll(NOMS,AUTEURS, PRIX, ETATS);
         this.setCenter(tableau);
+
         //--barre de tache
         VBox tasks =new VBox(10);
         Button ajouter =new Button("ajouter");
         Button supprimer = new Button("supprimer");
         tasks.getChildren().addAll(ajouter,supprimer);
         this.setRight(tasks);
+        //---evenement sur les boutons
+        utilisateur.setOnAction(event -> utilisateur());
 
 
+    }
 
+    private void utilisateur(){
+        TableColumn NOMS =new TableColumn("NOM");
+        NOMS.setCellValueFactory(new PropertyValueFactory("name"));
+        TableColumn SURNAME =new TableColumn("SURNAME");
+        SURNAME.setCellValueFactory(new PropertyValueFactory("surname"));
+        TableColumn VRAI = new TableColumn ("eligibilite");
+        VRAI.setCellValueFactory(new PropertyValueFactory("eligibilite"));
+
+        ObservableList<Utilisateur> items= FXCollections.observableArrayList
+                (
+                        new Utilisateur("six pretendantes  ", "Jean Claude", "2500 ")
+                );
+        TableView table= new TableView<>(items);
+        table.getColumns().addAll(NOMS,SURNAME, VRAI);
+        this.setCenter(table);
     }
 }
 

@@ -1,47 +1,41 @@
 package com.example.bibliotheque;
 
+import javafx.beans.property.SimpleStringProperty;
+
 public class Utilisateur {
-    private String name;
-    private String auteurs;
-    private String prix;
-    private String etat;
+    private final SimpleStringProperty  name;
+    private final SimpleStringProperty surname;
+    private final SimpleStringProperty eligibilite;
 
-    public Utilisateur(String name,String auteurs,String prix, String etat){
-        this.name=name;
-        this.auteurs=auteurs;
-        this.prix=prix;
-        this.etat=etat;
+
+    public Utilisateur(String name,String surname,String eligibilite){
+        this.name=new SimpleStringProperty(name);
+        this.surname =new SimpleStringProperty(surname);
+        this.eligibilite= new SimpleStringProperty(eligibilite);
     }
 
-    public String getAuteurs() {
-        return auteurs;
+    public String getSurname() {
+        return this.surname.get();
     }
 
-    public String getEtat() {
-        return etat;
-    }
 
     public String getName() {
-        return name;
+        return this.name.get();
     }
 
-    public String getPrix() {
-        return prix;
+    public String getEligibilite() {
+        return this.eligibilite.get();
     }
 
-    public void setAuteurs(String auteurs) {
-        this.auteurs = auteurs;
-    }
-
-    public void setEtat(String etat) {
-        this.etat = etat;
+    public void setSurname(String surname) {
+        this.surname.set(surname);
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
     }
 
-    public void setPrix(String prix) {
-        this.prix = prix;
+    public void setPrix(String eligibilite) {
+        this.eligibilite.set(eligibilite);
     }
 }
