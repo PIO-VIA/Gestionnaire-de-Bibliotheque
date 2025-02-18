@@ -20,8 +20,8 @@ L'application permet d'ajouter, modifier, supprimer et consulter les données de
 
 ### 2. Cloner le projet
 ```sh
-git clone https://github.com/utilisateur/gestion-bibliotheque.git
-cd gestion-bibliotheque
+git clone https://github.com/PIO-VIA/Gestionnaire-de-Bibliotheque.git
+
 ```
 
 ---
