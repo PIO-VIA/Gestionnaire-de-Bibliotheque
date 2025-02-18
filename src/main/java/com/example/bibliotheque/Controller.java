@@ -47,6 +47,7 @@ public class Controller  extends BorderPane {
         this.setRight(tasks);
         //---evenement sur les boutons
         utilisateur.setOnAction(event -> utilisateur());
+        Finance.setOnAction(event -> Emprunt());
 
 
     }
@@ -66,6 +67,18 @@ public class Controller  extends BorderPane {
         TableView table= new TableView<>(items);
         table.getColumns().addAll(NOMS,SURNAME, VRAI);
         this.setCenter(table);
+        VBox outils =new VBox(10);
+        Button add = new Button("nouveau");
+        Button delete =new Button("supprimer");
+        outils.getChildren().addAll(add, delete);
+        this.setRight(outils);
+    }
+
+    private void Emprunt(){
+        VBox outils= new VBox(10);
+        Button add = new Button("enregistrer");
+        outils.getChildren().addAll(add);
+        this.setRight(outils);
     }
 }
 
