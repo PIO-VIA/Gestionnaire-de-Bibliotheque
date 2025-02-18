@@ -14,8 +14,8 @@ public class Biblio extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        Scene scene = new Scene(new Controller(20));
-        stage.setTitle("Hello!");
+        Scene scene = new Scene(new Controller());
+        stage.setTitle("Gestionnaire de Bibliotheque");
         stage.setHeight(largeur);
         stage.setWidth(longueur);
         stage.setScene(scene);
