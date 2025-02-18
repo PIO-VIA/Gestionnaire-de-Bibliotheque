@@ -8,10 +8,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.sql.*;
+
 public class Controller  extends BorderPane {
-
-
     public Controller(){
+        try {
+            Controller.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         //---Dashboard
         VBox Dashboard =new VBox(10);
         Button accueil =new Button("Accueil");
@@ -21,7 +26,7 @@ public class Controller  extends BorderPane {
         Button setting= new Button("Parametres");
         Dashboard.getChildren().addAll(accueil,utilisateur,Finance,Stat, setting);
         this.setLeft(Dashboard);
-        //----tableau qui  affiche les livres
+        //----tableau qui affiche les livres
         TableColumn NOMS =new TableColumn("NOM");
         NOMS.setCellValueFactory(new PropertyValueFactory("name"));
         TableColumn AUTEURS =new TableColumn("AUTEURS");
@@ -80,6 +85,46 @@ public class Controller  extends BorderPane {
         outils.getChildren().addAll(add);
         this.setRight(outils);
     }
+    //---- connection a la bd
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/Bibliotheque?useSSL=false","root","vianney.237");
+    }
+    //----afficher les livre
+    public void afficherLivres() {
+        String query = "SELECT * FROM Livre";
+
+        try (Connection conn = Controller.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet res = stmt.executeQuery(query)) {
+
+            while (res.next()) {
+                String nom = res.getString("nom");
+                System.out.println("Livre: " + nom);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de l'affichage des livres : " + e.getMessage());
+        }
+    }
+    public void ajouterLivre(String nom, String auteur) {
+        String query = "INSERT INTO Livre (nom, auteur) VALUES (?, ?)";
+
+        try (Connection conn = Controller.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, nom);
+            pstmt.setString(2, auteur);
+            int rowsInserted = pstmt.executeUpdate();
+
+            if (rowsInserted > 0) {
+                System.out.println("Livre ajouté avec succès !");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de l'ajout du livre : " + e.getMessage());
+        }
+    }
+
 }
 
 
