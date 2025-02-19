@@ -106,14 +106,17 @@ public class Controller  extends BorderPane {
             System.out.println("Erreur lors de l'affichage des livres : " + e.getMessage());
         }
     }
-    public void ajouterLivre(String nom, String auteur) {
-        String query = "INSERT INTO Livre (nom, auteur) VALUES (?, ?)";
+    //---- ajouter un livre
+    public void ajouterLivre(int Idlivre, String nom, String auteur, int prix) {
+        String query = "INSERT INTO Livre (Idlivre,nom, auteur,prix) VALUES (?, ?,?,?)";
 
         try (Connection conn = Controller.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-            pstmt.setString(1, nom);
-            pstmt.setString(2, auteur);
+            pstmt.setInt(1, Idlivre);
+            pstmt.setString(2, nom);
+            pstmt.setString(3, auteur);
+            pstmt.setInt(4, prix);
             int rowsInserted = pstmt.executeUpdate();
 
             if (rowsInserted > 0) {
