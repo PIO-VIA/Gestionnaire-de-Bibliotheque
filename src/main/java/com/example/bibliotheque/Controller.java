@@ -11,12 +11,11 @@ import javafx.scene.layout.VBox;
 import java.sql.*;
 
 public class Controller  extends BorderPane {
+    private LivreDAO livreDAO = new LivreDAO();
+    private UDAO U =new UDAO();
     public Controller(){
-        try {
-            Controller.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        //--- connection a la bd
+
         //---Dashboard
         VBox Dashboard =new VBox(10);
         Button accueil =new Button("Accueil");
@@ -27,21 +26,20 @@ public class Controller  extends BorderPane {
         Dashboard.getChildren().addAll(accueil,utilisateur,Finance,Stat, setting);
         this.setLeft(Dashboard);
         //----tableau qui affiche les livres
-        TableColumn NOMS =new TableColumn("NOM");
-        NOMS.setCellValueFactory(new PropertyValueFactory("name"));
-        TableColumn AUTEURS =new TableColumn("AUTEURS");
-        AUTEURS.setCellValueFactory(new PropertyValueFactory("auteur"));
-        TableColumn PRIX = new TableColumn ("PRIX");
-        PRIX.setCellValueFactory(new PropertyValueFactory("prix"));
-        TableColumn ETATS =new TableColumn("ETATS");
-        ETATS.setCellValueFactory(new PropertyValueFactory("etat"));
-        ObservableList<Livre> items= FXCollections.observableArrayList
-                (
-                        new Livre("six pretendantes  ", "Jean Claude", "2500 ","libre")
+        TableColumn<Livre,Integer> Idlivre =new TableColumn<>("IdLivre");
+        Idlivre.setCellValueFactory(new PropertyValueFactory<>("Idlivre"));
+        TableColumn<Livre, String> NOMS = new TableColumn<>("NOM");
+        NOMS.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        TableColumn<Livre, String> AUTEURS = new TableColumn<>("AUTEURS");
+        AUTEURS.setCellValueFactory(new PropertyValueFactory<>("auteur"));
+        TableColumn<Livre, Integer> PRIX = new TableColumn<>("PRIX");
+        PRIX.setCellValueFactory(new PropertyValueFactory<>("prix"));
+        TableColumn<Livre, String> ETATS = new TableColumn<>("ETATS");
+        ETATS.setCellValueFactory(new PropertyValueFactory<>("etat"));
 
-                );
-        TableView tableau= new TableView<>(items);
-        tableau.getColumns().addAll(NOMS,AUTEURS, PRIX, ETATS);
+        ObservableList<Livre> items = FXCollections.observableArrayList(livreDAO.afficherLivres());
+        TableView<Livre> tableau = new TableView<>(items);
+        tableau.getColumns().addAll(Idlivre,NOMS, AUTEURS, PRIX, ETATS);
         this.setCenter(tableau);
 
         //--barre de tache
@@ -58,20 +56,21 @@ public class Controller  extends BorderPane {
     }
 
     private void utilisateur(){
-        TableColumn NOMS =new TableColumn("NOM");
-        NOMS.setCellValueFactory(new PropertyValueFactory("name"));
-        TableColumn SURNAME =new TableColumn("SURNAME");
-        SURNAME.setCellValueFactory(new PropertyValueFactory("surname"));
-        TableColumn VRAI = new TableColumn ("eligibilite");
-        VRAI.setCellValueFactory(new PropertyValueFactory("eligibilite"));
+        TableColumn<Utilisateur,Integer> Idlivre =new TableColumn<>("IdUtilisateur");
+        Idlivre.setCellValueFactory(new PropertyValueFactory<>("IdUtilisateur"));
+        TableColumn<Utilisateur, String> NOMS = new TableColumn<>("NOM");
+        NOMS.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        TableColumn<Utilisateur, String> SURNAME = new TableColumn<>("AUTEURS");
+        SURNAME.setCellValueFactory(new PropertyValueFactory<>("surname"));
+        TableColumn<Utilisateur, Integer> IB= new TableColumn<>("NUMERO ");
+        IB.setCellValueFactory(new PropertyValueFactory<>("IbTel"));
+        TableColumn<Utilisateur, String> ETATS = new TableColumn<>("eligibilite");
+        ETATS.setCellValueFactory(new PropertyValueFactory<>("eligibilite"));
 
-        ObservableList<Utilisateur> items= FXCollections.observableArrayList
-                (
-                        new Utilisateur("six pretendantes  ", "Jean Claude", "2500 ")
-                );
-        TableView table= new TableView<>(items);
-        table.getColumns().addAll(NOMS,SURNAME, VRAI);
-        this.setCenter(table);
+        ObservableList<Utilisateur> items = FXCollections.observableArrayList(U.afficherU());
+        TableView<Utilisateur> tableau = new TableView<>(items);
+        tableau.getColumns().addAll(Idlivre,NOMS, SURNAME, IB, ETATS);
+        this.setCenter(tableau);
         VBox outils =new VBox(10);
         Button add = new Button("nouveau");
         Button delete =new Button("supprimer");
@@ -85,48 +84,12 @@ public class Controller  extends BorderPane {
         outils.getChildren().addAll(add);
         this.setRight(outils);
     }
-    //---- connection a la bd
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/Bibliotheque?useSSL=false","root","vianney.237");
-    }
+
     //----afficher les livre
-    public void afficherLivres() {
-        String query = "SELECT * FROM Livre";
 
-        try (Connection conn = Controller.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet res = stmt.executeQuery(query)) {
-
-            while (res.next()) {
-                String nom = res.getString("nom");
-                System.out.println("Livre: " + nom);
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Erreur lors de l'affichage des livres : " + e.getMessage());
-        }
-    }
     //---- ajouter un livre
-    public void ajouterLivre(int Idlivre, String nom, String auteur, int prix) {
-        String query = "INSERT INTO Livre (Idlivre,nom, auteur,prix) VALUES (?, ?,?,?)";
 
-        try (Connection conn = Controller.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-            pstmt.setInt(1, Idlivre);
-            pstmt.setString(2, nom);
-            pstmt.setString(3, auteur);
-            pstmt.setInt(4, prix);
-            int rowsInserted = pstmt.executeUpdate();
-
-            if (rowsInserted > 0) {
-                System.out.println("Livre ajouté avec succès !");
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Erreur lors de l'ajout du livre : " + e.getMessage());
-        }
-    }
 
 }
 
