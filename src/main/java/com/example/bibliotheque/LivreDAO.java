@@ -51,7 +51,7 @@ public class LivreDAO {
     // Ajoutez d'autres méthodes pour supprimer, mettre à jour, etc.
     public void deletelivre(int IdLivre){
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM Utilisateur WHERE Idlivre = ?")) {
+             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM Livre WHERE Idlivre = ?")) {
             pstmt.setInt(1, IdLivre);
 
             int rowsInserted = pstmt.executeUpdate();

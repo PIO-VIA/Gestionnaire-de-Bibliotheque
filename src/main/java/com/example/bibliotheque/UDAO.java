@@ -48,4 +48,19 @@ public class UDAO {
             System.err.println("Erreur lors de l'ajout du livre : " + e.getMessage());
         }
     }
+    //supprimer un utilisateur
+    public void deleteU(int IdU){
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM Utilisateur WHERE IdUtilisateur = ?")) {
+            pstmt.setInt(1, IdU);
+
+            int rowsInserted = pstmt.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("utilisateur supprimer avec succès !");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la suppresion de l'utilisateur : " + e.getMessage());
+        }
+
+    }
 }

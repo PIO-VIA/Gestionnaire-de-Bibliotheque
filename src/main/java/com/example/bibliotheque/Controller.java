@@ -80,14 +80,7 @@ public class Controller  extends BorderPane {
         this.setRight(outils);
         //--- evenement des boutons
         add.setOnAction(event -> addU(tableau));
-        delete.setOnAction(event -> {
-            HBox B =new HBox(5);
-            Label entry =new Label("ID du LIvre");
-            TextField T = new TextField();
-            Button D = new Button("Supprimer");
-            B.getChildren().addAll(entry, T, D);
-            this.setBottom(B);
-        });
+        delete.setOnAction(event -> supprimerU(tableau));
         this.setBottom(null);
     }
 
@@ -122,7 +115,21 @@ public class Controller  extends BorderPane {
 
         this.setBottom(bas);
     }
-
+    private void supprimerU(TableView tableau){
+        UDAO U = new UDAO();
+        HBox B =new HBox(5);
+        Label entry =new Label("ID du LIvre");
+        TextField T = new TextField();
+        Button D = new Button("Supprimer");
+        B.getChildren().addAll(entry, T, D);
+        this.setBottom(B);
+        D.setOnAction(event -> {
+            int R =Integer.parseInt(T.getText());
+            U.deleteU(R);
+            tableau.setItems(FXCollections.observableArrayList(U.afficherU()));
+            this.setBottom(null);
+        });
+    }
 
 
 
