@@ -9,6 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.sql.*;
+import java.util.Random;
 
 public class Controller  extends BorderPane {
     private LivreDAO livreDAO = new LivreDAO();
@@ -56,6 +57,7 @@ public class Controller  extends BorderPane {
     }
 
     private void utilisateur(){
+
         TableColumn<Utilisateur,Integer> Idlivre =new TableColumn<>("IdUtilisateur");
         Idlivre.setCellValueFactory(new PropertyValueFactory<>("IdUtilisateur"));
         TableColumn<Utilisateur, String> NOMS = new TableColumn<>("NOM");
@@ -76,6 +78,17 @@ public class Controller  extends BorderPane {
         Button delete =new Button("supprimer");
         outils.getChildren().addAll(add, delete);
         this.setRight(outils);
+        //--- evenement des boutons
+        add.setOnAction(event -> addU(tableau));
+        delete.setOnAction(event -> {
+            HBox B =new HBox(5);
+            Label entry =new Label("ID du LIvre");
+            TextField T = new TextField();
+            Button D = new Button("Supprimer");
+            B.getChildren().addAll(entry, T, D);
+            this.setBottom(B);
+        });
+        this.setBottom(null);
     }
 
     private void Emprunt(){
@@ -84,10 +97,35 @@ public class Controller  extends BorderPane {
         outils.getChildren().addAll(add);
         this.setRight(outils);
     }
+    private void addU(TableView tableau){
+        UDAO U = new UDAO();
+        HBox bas =new HBox(5);
+        Label nom = new Label("nom");
+        TextField Enom= new TextField();
+        Label prenom = new Label("Prenom");
+        TextField Eprenom =new TextField();
+        Label IB =new Label("numero");
+        TextField EIB =new TextField();
+        Button fin = new Button("AJouter");
+        bas.getChildren().addAll(nom, Enom,prenom,Eprenom,IB,EIB,fin);
+        fin.setOnAction(event -> {
+            String Pnom =Enom.getText();
+            String Psurname =Eprenom.getText();
+            int Pib = Integer.parseInt(EIB.getText());
+            Random R =new Random();
+            int ID=R.nextInt(100000);
+            U.ajouterU(ID,Pnom,Psurname,Pib,"Vrai");
+            tableau.setItems(FXCollections.observableArrayList(U.afficherU()));
+            this.setBottom(null);
 
-    //----afficher les livre
+        });
 
-    //---- ajouter un livre
+        this.setBottom(bas);
+    }
+
+
+
+
 
 
 

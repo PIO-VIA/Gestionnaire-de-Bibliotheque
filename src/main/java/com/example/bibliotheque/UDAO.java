@@ -30,4 +30,22 @@ public class UDAO {
         }
         return livres;
     }
+    //----ajouter un utilisateur
+    public void ajouterU(int IdU, String nom, String prenom, int tel, String etat) {
+        String query = "INSERT INTO Utilisateur (IdUtilisateur, nom, surname, IbTel, eligibilite) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, IdU);
+            pstmt.setString(2, nom);
+            pstmt.setString(3, prenom);
+            pstmt.setInt(4, tel);
+            pstmt.setString(5, etat);
+            int rowsInserted = pstmt.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Livre ajouté avec succès !");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de l'ajout du livre : " + e.getMessage());
+        }
+    }
 }

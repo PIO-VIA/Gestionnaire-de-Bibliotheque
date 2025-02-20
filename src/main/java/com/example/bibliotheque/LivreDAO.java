@@ -49,4 +49,18 @@ public class LivreDAO {
     }
 
     // Ajoutez d'autres méthodes pour supprimer, mettre à jour, etc.
+    public void deletelivre(int IdLivre){
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM Utilisateur WHERE Idlivre = ?")) {
+            pstmt.setInt(1, IdLivre);
+
+            int rowsInserted = pstmt.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Livre supprimer avec succès !");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la suppresion du livre : " + e.getMessage());
+        }
+
+    }
 }
