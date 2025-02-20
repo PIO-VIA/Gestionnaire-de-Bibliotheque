@@ -3,39 +3,58 @@ package com.example.bibliotheque;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Utilisateur {
-    private final SimpleStringProperty  name;
-    private final SimpleStringProperty surname;
-    private final SimpleStringProperty eligibilite;
+    private int IdUtilisateur;
+    private  String name;
+    private  String surname;
+    private String eligibilite;
+    private int TEL;
 
 
-    public Utilisateur(String name,String surname,String eligibilite){
-        this.name=new SimpleStringProperty(name);
-        this.surname =new SimpleStringProperty(surname);
-        this.eligibilite= new SimpleStringProperty(eligibilite);
+    public Utilisateur(int IdUtilisateur, String name,String surname,int TEL, String eligibilite){
+        this.name=name;
+        this.surname =surname;
+        this.eligibilite=eligibilite;
+        this.TEL=TEL;
+        this.IdUtilisateur=IdUtilisateur;
+    }
+
+    public int getIdUtilisateur() {
+        return IdUtilisateur;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getSurname() {
-        return this.surname.get();
-    }
-
-
-    public String getName() {
-        return this.name.get();
+        return surname;
     }
 
     public String getEligibilite() {
-        return this.eligibilite.get();
+        return eligibilite;
     }
 
-    public void setSurname(String surname) {
-        this.surname.set(surname);
+    public int getTEL() {
+        return TEL;
+    }
+
+    public void setIdUtilisateur(int idUtilisateur) {
+        IdUtilisateur = idUtilisateur;
     }
 
     public void setName(String name) {
-        this.name.set(name);
+        this.name = name;
     }
 
-    public void setPrix(String eligibilite) {
-        this.eligibilite.set(eligibilite);
+    public void setEligibilite(String eligibilite) {
+        this.eligibilite = eligibilite;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setTEL(int TEL) {
+        this.TEL = TEL;
     }
 }

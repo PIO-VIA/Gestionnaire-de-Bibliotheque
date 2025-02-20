@@ -1,45 +1,59 @@
 package com.example.bibliotheque;
 
-import javafx.beans.property.SimpleStringProperty;
+public class Livre {
+    private int Idlivre;
+    private String nom;
+    private String auteur;
+    private int prix;
+    private String etat;
 
-public class Livre  {
-    private final SimpleStringProperty name ;
-    private final SimpleStringProperty etat;
-    private final SimpleStringProperty auteur;
-    private final SimpleStringProperty prix;
-
-    public Livre(String name, String auteur, String prix, String etat) {
-        this.name = new SimpleStringProperty(name);
-        this.auteur= new SimpleStringProperty(auteur);
-        this.etat = new SimpleStringProperty(etat);
-        this.prix = new SimpleStringProperty(prix) ;
+    public Livre(int Idlivre, String nom, String auteur, int prix, String etat) {
+        this.Idlivre = Idlivre;
+        this.nom = nom;
+        this.auteur = auteur;
+        this.prix = prix;
+        this.etat = etat;
     }
-    public  String getName(){
-        return this.name.get();
+
+    // Getters et Setters
+
+    public int getIdlivre() {
+        return Idlivre;
+    }
+
+    public String getNom() {
+        return nom;
     }
 
     public String getEtat() {
-        return this.etat.get();
+        return etat;
     }
-    public void setName(String name){
-        this.name.set(name);
-    }
-    public void setEtat(String url){
-        this.etat.set(url);
+
+    public int getPrix() {
+        return prix;
     }
 
     public String getAuteur() {
-        return auteur.get();
-    }
-    public void setAuteur(String auteur){
-        this.auteur.set(auteur);
+        return auteur;
     }
 
-    public String getPrix() {
-        return prix.get();
+    public void setIdlivre(int idlivre) {
+        Idlivre = idlivre;
     }
-    public void setPrix(String prix){
-        this.prix.set(prix);
+
+    public void setPrix(int prix) {
+        this.prix = prix;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
+    }
+
+    public void setAuteur(String auteur) {
+        this.auteur = auteur;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 }
-
