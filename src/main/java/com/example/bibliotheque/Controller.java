@@ -64,11 +64,11 @@ public class Controller  extends BorderPane {
         TableColumn<Utilisateur,Integer> Idlivre =new TableColumn<>("IdUtilisateur");
         Idlivre.setCellValueFactory(new PropertyValueFactory<>("IdUtilisateur"));
         TableColumn<Utilisateur, String> NOMS = new TableColumn<>("NOM");
-        NOMS.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        NOMS.setCellValueFactory(new PropertyValueFactory<>("name"));
         TableColumn<Utilisateur, String> SURNAME = new TableColumn<>("AUTEURS");
         SURNAME.setCellValueFactory(new PropertyValueFactory<>("surname"));
         TableColumn<Utilisateur, Integer> IB= new TableColumn<>("NUMERO ");
-        IB.setCellValueFactory(new PropertyValueFactory<>("IbTel"));
+        IB.setCellValueFactory(new PropertyValueFactory<>("TEL"));
         TableColumn<Utilisateur, String> ETATS = new TableColumn<>("eligibilite");
         ETATS.setCellValueFactory(new PropertyValueFactory<>("eligibilite"));
 
@@ -88,10 +88,27 @@ public class Controller  extends BorderPane {
     }
 
     private void Emprunt(){
+        EDAO U =new EDAO();
         VBox outils= new VBox(10);
         Button add = new Button("enregistrer");
+
         outils.getChildren().addAll(add);
         this.setRight(outils);
+        TableColumn<Pret,Integer> IdU =new TableColumn<>("IdUtilisateur");
+        IdU.setCellValueFactory(new PropertyValueFactory<>("IdUtilisateur"));
+        TableColumn<Pret, Integer> IdL = new TableColumn<>("IdLivre");
+        IdL.setCellValueFactory(new PropertyValueFactory<>("Idlivre"));
+        TableColumn<Pret, String> Date = new TableColumn<>("Date");
+        Date.setCellValueFactory(new PropertyValueFactory<>("dateE"));
+
+        ObservableList<Pret> items = FXCollections.observableArrayList(U.afficherE());
+        TableView<Pret> tableau = new TableView<>(items);
+        tableau.getColumns().addAll(IdU,IdL, Date);
+        this.setCenter(tableau);
+        this.setBottom(null);
+        //-- evenement
+        add.setOnAction(event -> addE(tableau));
+
     }
     private void addU(TableView tableau){
         UDAO U = new UDAO();
@@ -202,6 +219,31 @@ public class Controller  extends BorderPane {
         supprimer.setOnAction(event -> DeleteL(tableau));
 
 
+
+    }
+
+    private void addE(TableView tableau){
+        EDAO EDAO =new EDAO();
+        HBox A =new HBox(5);
+        Label nom = new Label("IdUtilisateur");
+        TextField Enom= new TextField();
+        Label prenom = new Label("IdLivre");
+        TextField Eprenom =new TextField();
+        Label D= new Label("Date");
+        TextField ED =new TextField("jj/mm/yy");
+        Button fin = new Button("AJouter");
+        A.getChildren().addAll(nom,Enom,prenom,Eprenom,D,ED,fin);
+        this.setBottom(A);
+        fin.setOnAction(event -> {
+            int Pnom =Integer.parseInt(Enom.getText());
+            int Psurname =Integer.parseInt(Eprenom.getText());
+            Random R =new Random();
+            String PD =ED.getText();
+            int ID=R.nextInt(100000);
+            EDAO.ajouterE(ID,Psurname,Pnom,PD);
+            tableau.setItems(FXCollections.observableArrayList(EDAO.afficherE()));
+            this.setBottom(null);
+        });
 
     }
 
