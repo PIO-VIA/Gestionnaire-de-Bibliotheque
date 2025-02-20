@@ -42,10 +42,10 @@ public class UDAO {
             pstmt.setString(5, etat);
             int rowsInserted = pstmt.executeUpdate();
             if (rowsInserted > 0) {
-                System.out.println("Livre ajouté avec succès !");
+                System.out.println("utilisateur ajouté avec succès !");
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de l'ajout du livre : " + e.getMessage());
+            System.err.println("Erreur lors de l'ajout du utilisateur : " + e.getMessage());
         }
     }
     //supprimer un utilisateur

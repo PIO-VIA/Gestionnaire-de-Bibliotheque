@@ -52,6 +52,9 @@ public class Controller  extends BorderPane {
         //---evenement sur les boutons
         utilisateur.setOnAction(event -> utilisateur());
         Finance.setOnAction(event -> Emprunt());
+        ajouter.setOnAction(event -> AddL(tableau));
+        supprimer.setOnAction(event -> DeleteL(tableau));
+        accueil.setOnAction(event -> Home(tableau));
 
 
     }
@@ -118,7 +121,7 @@ public class Controller  extends BorderPane {
     private void supprimerU(TableView tableau){
         UDAO U = new UDAO();
         HBox B =new HBox(5);
-        Label entry =new Label("ID du LIvre");
+        Label entry =new Label("ID du l'utilisateur");
         TextField T = new TextField();
         Button D = new Button("Supprimer");
         B.getChildren().addAll(entry, T, D);
@@ -130,7 +133,77 @@ public class Controller  extends BorderPane {
             this.setBottom(null);
         });
     }
+    private void AddL(TableView tableau){
+        LivreDAO LivreDAO =new LivreDAO();
+        HBox A =new HBox(5);
+        Label nom = new Label("Nom");
+        TextField Enom= new TextField();
+        Label prenom = new Label("Auteur");
+        TextField Eprenom =new TextField();
+        Label IB =new Label("Prix");
+        TextField EIB =new TextField();
+        Button fin = new Button("AJouter");
+        A.getChildren().addAll(nom,Enom,prenom,Eprenom,IB,EIB,fin);
+        this.setBottom(A);
+        fin.setOnAction(event -> {
+            String Pnom =Enom.getText();
+            String Psurname =Eprenom.getText();
+            int Pib = Integer.parseInt(EIB.getText());
+            Random R =new Random();
+            int ID=R.nextInt(100000);
+            LivreDAO.ajouterLivre(ID,Pnom,Psurname,Pib,"Vrai");
+            tableau.setItems(FXCollections.observableArrayList(LivreDAO.afficherLivres()));
+            this.setBottom(null);
+        });
 
+    }
+
+    private void DeleteL(TableView tableau){
+        LivreDAO U = new LivreDAO();
+        HBox B =new HBox(5);
+        Label entry =new Label("ID du LIvre");
+        TextField T = new TextField();
+        Button D = new Button("Supprimer");
+        B.getChildren().addAll(entry, T, D);
+        this.setBottom(B);
+        D.setOnAction(event -> {
+            int R =Integer.parseInt(T.getText());
+            U.deletelivre(R);
+            tableau.setItems(FXCollections.observableArrayList(U.afficherLivres()));
+            this.setBottom(null);
+        });
+
+    }
+
+    private void Home(TableView tableau){
+        LivreDAO U =new LivreDAO();
+        TableColumn<Livre,Integer> Idlivre =new TableColumn<>("IdLivre");
+        Idlivre.setCellValueFactory(new PropertyValueFactory<>("Idlivre"));
+        TableColumn<Livre, String> NOMS = new TableColumn<>("NOM");
+        NOMS.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        TableColumn<Livre, String> AUTEURS = new TableColumn<>("AUTEURS");
+        AUTEURS.setCellValueFactory(new PropertyValueFactory<>("auteur"));
+        TableColumn<Livre, Integer> PRIX = new TableColumn<>("PRIX");
+        PRIX.setCellValueFactory(new PropertyValueFactory<>("prix"));
+        TableColumn<Livre, String> ETATS = new TableColumn<>("ETATS");
+        ETATS.setCellValueFactory(new PropertyValueFactory<>("etat"));
+
+        tableau.setItems(FXCollections.observableArrayList(U.afficherLivres()));
+        this.setCenter(tableau);
+        //--barre de tache
+        VBox tasks =new VBox(10);
+        Button ajouter =new Button("ajouter");
+        Button supprimer = new Button("supprimer");
+        tasks.getChildren().addAll(ajouter,supprimer);
+        this.setRight(tasks);
+        this.setBottom(null);
+        //---evenement sur les boutons
+        ajouter.setOnAction(event -> AddL(tableau));
+        supprimer.setOnAction(event -> DeleteL(tableau));
+
+
+
+    }
 
 
 
