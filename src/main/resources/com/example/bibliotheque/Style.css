@@ -1,0 +1,236 @@
+/* Style général de la scène */
+.root {
+    -fx-font-family: 'Arial';
+    -fx-background-color: #f4f4f9;
+    -fx-padding: 20px;
+}
+
+/* Style du conteneur principal */
+.container {
+    -fx-background-color: #fff;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 10, 0, 0, 0);
+    -fx-padding: 20px;
+    -fx-background-radius: 8px;
+}
+
+/* Style du tableau */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-table-cell-border-color: transparent;
+    -fx-padding: 10px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #4CAF50;
+    -fx-background-radius: 8px 8px 0 0;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table-view .table-cell {
+    -fx-border-color: transparent;
+    -fx-padding: 8px;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #f9f9f9;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #fff;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #f1f1f1;
+}
+
+/* Style des boutons */
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #45a049;
+}
+
+.button.ajouter {
+    -fx-background-color: #008CBA;
+}
+
+.button.ajouter:hover {
+    -fx-background-color: #007B9E;
+}
+
+.button.supprimer {
+    -fx-background-color: #f44336;
+}
+
+.button.supprimer:hover {
+    -fx-background-color: #e53935;
+}
+
+/* Style des en-têtes de section */
+.label {
+    -fx-text-fill: #4CAF50;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* Style des champs de texte */
+.text-field, .combo-box {
+    -fx-background-color: #fff;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 4px;
+    -fx-padding: 8px;
+    -fx-font-size: 14px;
+}
+
+.text-field:focused, .combo-box:focused {
+    -fx-border-color: #4CAF50;
+}
+
+/* Style des messages d'erreur */
+.error-message {
+    -fx-text-fill: #f44336;
+    -fx-font-size: 12px;
+}
+
+/* Style des liens */
+.hyperlink {
+    -fx-text-fill: #4CAF50;
+    -fx-underline: false;
+}
+
+.hyperlink:hover {
+    -fx-underline: true;
+}
+
+/* import javafx.application.Application;
+   import javafx.scene.Scene;
+   import javafx.scene.control.Button;
+   import javafx.scene.control.Label;
+   import javafx.scene.control.TableView;
+   import javafx.scene.layout.VBox;
+   import javafx.stage.Stage;
+
+   public class BibliothequeApp extends Application {
+       @Override
+       public void start(Stage primaryStage) {
+           // Créer un conteneur principal
+           VBox container = new VBox(10);
+           container.getStyleClass().add("container");
+
+           // Ajouter un titre
+           Label title = new Label("Gestionnaire de Bibliothèque");
+           title.getStyleClass().add("label");
+
+           // Ajouter un tableau (exemple simplifié)
+           TableView<String> table = new TableView<>();
+           table.getStyleClass().add("table-view");
+
+           // Ajouter des boutons
+           Button ajouterButton = new Button("Ajouter");
+           ajouterButton.getStyleClass().add("button");
+           ajouterButton.getStyleClass().add("ajouter");
+
+           Button supprimerButton = new Button("Supprimer");
+           supprimerButton.getStyleClass().add("button");
+           supprimerButton.getStyleClass().add("supprimer");
+
+           // Ajouter les éléments au conteneur
+           container.getChildren().addAll(title, table, ajouterButton, supprimerButton);
+
+           // Créer la scène et appliquer le CSS
+           Scene scene = new Scene(container, 800, 600);
+           scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+
+           // Afficher la scène
+           primaryStage.setScene(scene);
+           primaryStage.setTitle("Gestionnaire de Bibliothèque");
+           primaryStage.show();
+       }
+
+       public static void main(String[] args) {
+           launch(args);
+       }
+   }
+
+   import javafx.application.Application;
+   import javafx.collections.FXCollections;
+   import javafx.collections.ObservableList;
+   import javafx.scene.Scene;
+   import javafx.scene.control.Button;
+   import javafx.scene.control.TableColumn;
+   import javafx.scene.control.TableView;
+   import javafx.scene.control.cell.PropertyValueFactory;
+   import javafx.scene.layout.VBox;
+   import javafx.stage.Stage;
+
+   public class BibliothequeApp extends Application {
+       @Override
+       public void start(Stage primaryStage) {
+           // Créer un conteneur principal
+           VBox container = new VBox(10);
+           container.getStyleClass().add("container");
+
+           // Créer un tableau
+           TableView<Livre> table = new TableView<>();
+           table.getStyleClass().add("table-view");
+
+           // Créer des colonnes
+           TableColumn<Livre, String> nomCol = new TableColumn<>("NOM");
+           nomCol.setCellValueFactory(new PropertyValueFactory<>("nom"));
+
+           TableColumn<Livre, String> auteurCol = new TableColumn<>("AUTEUR");
+           auteurCol.setCellValueFactory(new PropertyValueFactory<>("auteur"));
+
+           TableColumn<Livre, Integer> prixCol = new TableColumn<>("PRIX");
+           prixCol.setCellValueFactory(new PropertyValueFactory<>("prix"));
+
+           TableColumn<Livre, String> etatCol = new TableColumn<>("ETAT");
+           etatCol.setCellValueFactory(new PropertyValueFactory<>("etat"));
+
+           table.getColumns().addAll(nomCol, auteurCol, prixCol, etatCol);
+
+           // Ajouter des données au tableau
+           ObservableList<Livre> data = FXCollections.observableArrayList(
+               new Livre("Le Petit Prince", "Antoine de Saint-Exupéry", 10, "libre"),
+               new Livre("1984", "George Orwell", 12, "libre")
+           );
+           table.setItems(data);
+
+           // Ajouter des boutons
+           Button ajouterButton = new Button("Ajouter");
+           ajouterButton.getStyleClass().addAll("button", "ajouter");
+
+           Button supprimerButton = new Button("Supprimer");
+           supprimerButton.getStyleClass().addAll("button", "supprimer");
+
+           // Ajouter les éléments au conteneur
+           container.getChildren().addAll(table, ajouterButton, supprimerButton);
+
+           // Créer la scène et appliquer le CSS
+           Scene scene = new Scene(container, 800, 600);
+           scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+
+           // Afficher la scène
+           primaryStage.setScene(scene);
+           primaryStage.setTitle("Gestionnaire de Bibliothèque");
+           primaryStage.show();
+       }
+
+       public static void main(String[] args) {
+           launch(args);
+       }
+   }*/

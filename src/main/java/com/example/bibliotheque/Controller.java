@@ -230,7 +230,7 @@ public class Controller  extends BorderPane {
         Label prenom = new Label("IdLivre");
         TextField Eprenom =new TextField();
         Label D= new Label("Date");
-        TextField ED =new TextField("jj/mm/yy");
+        TextField ED =new TextField("yyyy-mm-jj");
         Button fin = new Button("AJouter");
         A.getChildren().addAll(nom,Enom,prenom,Eprenom,D,ED,fin);
         this.setBottom(A);
